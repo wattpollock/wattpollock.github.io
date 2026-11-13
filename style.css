@@ -1,0 +1,134 @@
+/* ==========================================================================
+   Matthew Pollock — Portfolio Styles
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design Tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* Colors */
+  --bg:      #0d1117;
+  --card:    #161b22;
+  --text:    #e6edf3;
+  --muted:   #9aa5b1;
+  --accent:  #2f81f7;
+  --border:  #30363d;
+
+  /* Layout */
+  --max-width:   860px;
+  --radius:      10px;
+  --gap:         16px;
+
+  /* Typography */
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset
+   -------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* --------------------------------------------------------------------------
+   3. Base
+   -------------------------------------------------------------------------- */
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+h1 { font-size: 2rem;    margin-bottom: 6px; }
+h2 { font-size: 1.2rem;  margin: 38px 0 16px; }
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   4. Layout
+   -------------------------------------------------------------------------- */
+.wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 48px 20px;
+}
+
+/* --------------------------------------------------------------------------
+   5. Header
+   -------------------------------------------------------------------------- */
+header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 28px;
+  margin-bottom: 36px;
+}
+
+.tag {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.intro {
+  color: var(--muted);
+  margin-top: 14px;
+  max-width: 620px;
+}
+
+.links {
+  margin-top: 18px;
+}
+.links a {
+  margin-right: 18px;
+  font-size: 0.95rem;
+}
+
+/* --------------------------------------------------------------------------
+   6. Project Cards
+   -------------------------------------------------------------------------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--gap);
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.card h3 {
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+.card p {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+/* --------------------------------------------------------------------------
+   7. Footer
+   -------------------------------------------------------------------------- */
+footer {
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* --------------------------------------------------------------------------
+   8. Responsive
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .wrap { padding: 32px 16px; }
+  h1    { font-size: 1.6rem; }
+}
