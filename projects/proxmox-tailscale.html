@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matthew Pollock | Tailscale VPN on Proxmox</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+
+    <header>
+        <h1>Matthew Pollock | Cybersecurity Portfolio | BYU</h1>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="../pages/about.html">About</a>
+            <a href="../pages/projects.html">Projects</a>
+            <a href="../pages/timeline.html">Timeline</a>
+            <a href="../pages/wordle.html">Wordle</a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Tailscale VPN on Proxmox</h2>
+            <p>Tailscale creates a private mesh network so all connected devices behave as if they're on the same LAN. This lets me reach the Proxmox web interface and my VMs from anywhere, on any network, without exposing anything to the public internet.</p>
+
+            <h3>Terminology</h3>
+            <ul>
+                <li><b>Host:</b> the physical machine running Proxmox. VMs run on top of it, so the host is the landlord and the VMs are guests.</li>
+                <li><b>VM (Virtual Machine):</b> a full computer running in software on the host, like my Kali Linux box.</li>
+                <li><b>IP address:</b> a device's unique address on a network (for example <code>100.74.246.11</code>).</li>
+                <li><b>100.x.x.x:</b> the x's are placeholders for your own numbers, which differ per device. Tailscale assigns every device an address starting with 100.</li>
+                <li><b>Mesh network:</b> a network where every device connects directly to every other one, instead of routing through a central point.</li>
+                <li><b>Port (:8006):</b> the number after the IP that picks which service to reach. Proxmox's web interface lives on port 8006.</li>
+                <li><b>Shell:</b> the text command interface on the host, opened from Proxmox's "Shell" button.</li>
+            </ul>
+
+            <p>The following steps detail the Tailscale setup:</p>
+
+            <ol>
+                <li>
+                    <b>Install Tailscale on the Proxmox host</b><br>
+                    Open the Proxmox shell (node → Shell) and run:<br>
+                    <code>curl -fsSL https://tailscale.com/install.sh | sh</code>
+                </li>
+                <li>
+                    <b>Start Tailscale and log in</b><br>
+                    Run <code>tailscale up</code>. This prints a login link. Open it in a browser and sign in. The account used here owns the network, and the same account logs in on every future device.
+                </li>
+                <li>
+                    <b>Find the host's Tailscale IP</b><br>
+                    Run <code>tailscale ip -4</code> to get the host's <code>100.x.x.x</code> address.
+                </li>
+                <li>
+                    <b>Install Tailscale on your other devices</b><br>
+                    Install the Tailscale app on your laptop (or phone) and sign in with the same account to join the network.
+                </li>
+                <li>
+                    <b>Access Proxmox remotely</b><br>
+                    From any connected device, open <code>https://100.x.x.x:8006</code> (your host's Tailscale IP). The Proxmox login loads from anywhere.
+                </li>
+                <li>
+                    <b>Disable key expiry</b><br>
+                    In the <a href="https://login.tailscale.com/admin/machines" target="_blank" rel="noopener noreferrer">Tailscale Admin Console</a>, click the ⋯ next to the host and choose "Disable key expiry" so the server doesn't drop off the network later.
+                </li>
+            </ol>
+
+            <p><b>Security note:</b> Using Tailscale's private mesh means the Proxmox management interface is never exposed to the public internet. No port forwarding, no open ports. Access is limited to devices on my tailnet.</p>
+        </section>
+    </main>
+
+    <footer>
+        © Matthew Pollock
+        · <a href="https://github.com/wattpollock" target="_blank" rel="noopener noreferrer">GitHub</a>
+        · <a href="https://www.linkedin.com/in/matthew-pollock-b1513530a/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <br>
+        <span class="hosted">Hosted on GitHub Pages</span>
+    </footer>
+
+</body>
+
+</html>

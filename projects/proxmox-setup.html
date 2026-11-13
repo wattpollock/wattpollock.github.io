@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matthew Pollock | Proxmox VE Install</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+
+    <header>
+        <h1>Matthew Pollock | Cybersecurity Portfolio | BYU</h1>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="../pages/about.html">About</a>
+            <a href="../pages/projects.html">Projects</a>
+            <a href="../pages/timeline.html">Timeline</a>
+            <a href="../pages/wordle.html">Wordle</a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Proxmox VE Install on an HP Envy</h2>
+            <p>I installed Proxmox VE on an HP Envy laptop to use as a home virtualization server. Running Proxmox lets me spin up multiple virtual machines on one piece of hardware, which I use for security labs and testing.</p>
+
+            <h3>Terminology</h3>
+            <ul>
+                <li><b>Proxmox VE:</b> a free, open-source platform for running virtual machines, managed through a web interface.</li>
+                <li><b>Hypervisor:</b> the software layer that lets one physical machine run multiple virtual machines at once.</li>
+                <li><b>Host:</b> the physical machine (the HP Envy) that runs Proxmox and hosts the VMs.</li>
+                <li><b>ISO:</b> a single-file image of an operating system installer, flashed to a USB drive to boot from.</li>
+            </ul>
+
+            <p>The following steps detail the Proxmox install:</p>
+
+            <ol>
+                <li>
+                    <b>Download the Proxmox VE ISO</b><br>
+                    Download the installer image from the official <a href="https://www.proxmox.com/en/downloads" target="_blank" rel="noopener noreferrer">Proxmox downloads page</a>.
+                </li>
+                <li>
+                    <b>Flash the ISO to a USB drive</b><br>
+                    Use a tool like <a href="https://rufus.ie/" target="_blank" rel="noopener noreferrer">Rufus</a> or <a href="https://etcher.balena.io/" target="_blank" rel="noopener noreferrer">balenaEtcher</a> to write the ISO to a USB flash drive, making it bootable.
+                </li>
+                <li>
+                    <b>Boot the HP Envy from the USB drive</b><br>
+                    Plug in the drive, restart the laptop, and open the boot menu (usually F9 or Esc on HP) to boot from USB instead of the internal drive.
+                </li>
+                <li>
+                    <b>Run the installer</b><br>
+                    Follow the Proxmox installer, choosing the target disk and setting a root password and management IP. This wipes the drive and installs Proxmox as the main operating system.
+                </li>
+                <li>
+                    <b>Log in to the web interface</b><br>
+                    After it reboots, reach the management interface from another device at <code>https://&lt;host-ip&gt;:8006</code> and log in as root.
+                </li>
+                <li>
+                    <b>Switch to the no-subscription repository</b><br>
+                    A fresh install points at the paid enterprise repository, which blocks updates without a subscription. In the web UI, disable the enterprise repo and add the no-subscription repo so updates work. See the <a href="https://pve.proxmox.com/wiki/Package_Repositories" target="_blank" rel="noopener noreferrer">Proxmox package repositories guide</a> for details.
+                </li>
+            </ol>
+
+            <p><b>Security note:</b> Proxmox runs the management interface on port 8006. I keep this off the public internet and reach it only over my private Tailscale network, which reduces the attack surface of the server.</p>
+        </section>
+    </main>
+
+    <footer>
+        © Matthew Pollock
+        · <a href="https://github.com/wattpollock" target="_blank" rel="noopener noreferrer">GitHub</a>
+        · <a href="https://www.linkedin.com/in/matthew-pollock-b1513530a/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <br>
+        <span class="hosted">Hosted on GitHub Pages</span>
+    </footer>
+
+</body>
+
+</html>

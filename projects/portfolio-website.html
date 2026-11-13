@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matthew Pollock | Personal Portfolio Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+
+    <header>
+        <h1>Matthew Pollock | Cybersecurity Portfolio | BYU</h1>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="../pages/about.html">About</a>
+            <a href="../pages/projects.html">Projects</a>
+            <a href="../pages/timeline.html">Timeline</a>
+            <a href="../pages/wordle.html">Wordle</a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Personal Portfolio Website</h2>
+            <p>I built this portfolio site from scratch with HTML and CSS to document my cybersecurity projects, then deployed it free with GitHub Pages. It uses no frameworks, so I wrote and understand every part of it.</p>
+
+            <h3>Terminology</h3>
+            <ul>
+                <li><b>HTML:</b> the markup that defines a web page's structure and content.</li>
+                <li><b>CSS:</b> the styling language that controls colors, layout, and fonts.</li>
+                <li><b>Git:</b> a version-control tool that tracks changes and pushes code to GitHub.</li>
+                <li><b>GitHub Pages:</b> a free service that hosts a website straight from a GitHub repository.</li>
+            </ul>
+
+            <p>The following steps detail how I built and deployed the site:</p>
+
+            <ol>
+                <li>
+                    <b>Build the pages</b><br>
+                    Hand-wrote the HTML for a home page, an about page, a projects page, and individual project write-ups, using semantic tags and a shared stylesheet.
+                </li>
+                <li>
+                    <b>Style with CSS</b><br>
+                    Created a single <code>style.css</code> with a dark theme, a navigation bar, content cards, and a consistent color palette used across every page.
+                </li>
+                <li>
+                    <b>Organize the repository</b><br>
+                    Structured the site into folders (<code>pages/</code>, <code>projects/</code>, <code>img/</code>) and used relative paths so every page links correctly.
+                </li>
+                <li>
+                    <b>Deploy with Git and GitHub Pages</b><br>
+                    I tracked the site with Git and pushed it to a <a href="https://github.com/wattpollock/wattpollock.github.io" target="_blank" rel="noopener noreferrer">GitHub repository</a> named <code>wattpollock.github.io</code>. GitHub Pages automatically serves any repository with that name as a live website, so enabling Pages in the repository settings published the site at <a href="https://wattpollock.github.io" target="_blank" rel="noopener noreferrer">wattpollock.github.io</a>. Every time I push a change with Git, the live site updates within about a minute.
+                </li>
+            </ol>
+
+            <p><b>Security note:</b> External links use <code>rel="noopener noreferrer"</code> to prevent tabnabbing, and the site is a static page with no backend, which keeps the attack surface minimal. No secrets or credentials are stored in the public repository.</p>
+        </section>
+    </main>
+
+    <footer>
+        © Matthew Pollock
+        · <a href="https://github.com/wattpollock" target="_blank" rel="noopener noreferrer">GitHub</a>
+        · <a href="https://www.linkedin.com/in/matthew-pollock-b1513530a/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <br>
+        <span class="hosted">Hosted on GitHub Pages</span>
+    </footer>
+
+</body>
+
+</html>

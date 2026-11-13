@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matthew Pollock | Kali Linux VM on Proxmox</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+
+    <header>
+        <h1>Matthew Pollock | Cybersecurity Portfolio | BYU</h1>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="../pages/about.html">About</a>
+            <a href="../pages/projects.html">Projects</a>
+            <a href="../pages/timeline.html">Timeline</a>
+            <a href="../pages/wordle.html">Wordle</a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Kali Linux VM on Proxmox</h2>
+            <p>I built a Kali Linux virtual machine on my Proxmox host to use for penetration testing and capture-the-flag (CTF) competitions. Kali comes preloaded with security tools, and running it as a VM keeps it isolated and easy to snapshot or rebuild.</p>
+
+            <h3>Terminology</h3>
+            <ul>
+                <li><b>Kali Linux:</b> a Linux distribution built for penetration testing, preloaded with security and networking tools.</li>
+                <li><b>VM (Virtual Machine):</b> a full computer running in software on the Proxmox host.</li>
+                <li><b>Bridge:</b> a virtual network switch in Proxmox that connects VMs to a network.</li>
+                <li><b>NAT (Network Address Translation):</b> a technique that lets devices on a private network share one outbound connection, rewriting their traffic so it can reach the internet.</li>
+            </ul>
+
+            <p>The following steps detail the Kali VM setup:</p>
+
+            <ol>
+                <li>
+                    <b>Download the Kali ISO into Proxmox</b><br>
+                    In the Proxmox web UI, go to local storage, open ISO Images, and use "Download from URL" with the installer link from the <a href="https://www.kali.org/get-kali/" target="_blank" rel="noopener noreferrer">Kali downloads page</a>. This pulls the ISO straight onto the host.
+                </li>
+                <li>
+                    <b>Create the VM</b><br>
+                    Click "Create VM" and set it up with the Kali ISO, 4 CPU cores, 8 GB of RAM, and a 60 GB disk. Enable the QEMU guest agent and attach the network device to the default bridge.
+                </li>
+                <li>
+                    <b>Run the installer</b><br>
+                    Boot the VM, open the console, and run the Kali graphical installer. Set a username and password, use guided partitioning, and keep the default Xfce desktop.
+                </li>
+                <li>
+                    <b>Update and verify</b><br>
+                    After first boot, open a terminal and run <code>sudo apt update &amp;&amp; sudo apt full-upgrade -y</code> to get the latest packages and confirm the system is working.
+                </li>
+            </ol>
+
+            <h3>Troubleshooting: No Network on the VM</h3>
+            <p>During the install, the VM failed to get an IP address through DHCP. The cause was the host's network setup: the Proxmox machine is a laptop that connects over Wi-Fi, and the VM was attached to an internal bridge that had no path to the internet. Wi-Fi adapters cannot be bridged the normal way, so the VM had no route out.</p>
+
+            <p>I fixed this by giving the VM a static IP on the bridge and enabling NAT on the host, so the VM's traffic routes out through the laptop's Wi-Fi:</p>
+
+            <ol>
+                <li>
+                    <b>Enable IP forwarding on the host</b><br>
+                    <code>sysctl -w net.ipv4.ip_forward=1</code>
+                </li>
+                <li>
+                    <b>Add a NAT rule for the VM's subnet</b><br>
+                    <code>iptables -t nat -A POSTROUTING -s 10.10.10.0/24 -o wlo1 -j MASQUERADE</code><br>
+                    This masquerades the VM subnet's traffic out through the host's Wi-Fi interface (<code>wlo1</code>).
+                </li>
+                <li>
+                    <b>Verify connectivity from Kali</b><br>
+                    <code>ping -c3 1.1.1.1</code> to confirm routing works, then <code>ping -c3 google.com</code> to confirm DNS.
+                </li>
+            </ol>
+
+            <p><b>What I learned:</b> A VM is only as connected as the host's networking allows. Because the host used Wi-Fi, a normal bridge could not reach the internet, and NAT was the correct fix to route the VM's traffic out. Working through this taught me how Proxmox bridges, NAT, and IP forwarding fit together.</p>
+        </section>
+    </main>
+
+    <footer>
+        © Matthew Pollock
+        · <a href="https://github.com/wattpollock" target="_blank" rel="noopener noreferrer">GitHub</a>
+        · <a href="https://www.linkedin.com/in/matthew-pollock-b1513530a/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <br>
+        <span class="hosted">Hosted on GitHub Pages</span>
+    </footer>
+
+</body>
+
+</html>

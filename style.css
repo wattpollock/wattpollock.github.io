@@ -1,3 +1,7 @@
+/* ==========================================================================
+   Matthew Pollock — Portfolio Styles
+   ========================================================================== */
+
 /* ===== Base ===== */
 body {
     background: #0d1117;
@@ -9,12 +13,13 @@ body {
     padding: 40px 20px;
 }
 
-/* ===== Navigation ===== */
+/* ===== Header / Name ===== */
 h1 {
     border-bottom: 3px solid #2f81f7;
     padding-bottom: 10px;
 }
 
+/* ===== Navigation Bar ===== */
 header nav {
     background-color: #21262d;
     border-radius: 8px;
@@ -34,7 +39,7 @@ nav a:hover {
     text-decoration: underline;
 }
 
-/* ===== Sections ===== */
+/* ===== Content Cards (sections) ===== */
 section {
     background-color: #161b22;
     border: 1px solid #30363d;
@@ -43,10 +48,76 @@ section {
     margin-bottom: 16px;
 }
 
+/* Pull the section's main heading to the top of the card */
 section h2 {
     margin-top: 0;
 }
 
+/* ===== Sub-headings (e.g. "Terminology", month labels) ===== */
+h3 {
+    color: #2f81f7;
+    margin-top: 24px;
+}
+
+/* ===== Project Page Content ===== */
+
+/* Space out list items so steps and terms don't run together */
+li {
+    margin-bottom: 12px;
+}
+
+/* Inline commands shown in a dark, bordered box */
+code {
+    background-color: #0d1117;
+    color: #2f81f7;
+    border: 1px solid #30363d;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 0.9rem;
+}
+
+/* Links inside project content (downloads, references, etc.) */
+section a {
+    color: #2f81f7;
+    text-decoration: none;
+}
+
+section a:hover {
+    color: #e6edf3;
+    text-decoration: underline;
+}
+
+/* ===== Project Logos ===== */
+.logo {
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+/* ===== Project Boxes (whole box is a clickable link) ===== */
+.project-list {
+    margin-top: 8px;
+}
+
+.project-box {
+    display: block;
+    background-color: #0d1117;
+    color: #e6edf3;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    text-decoration: none;
+}
+
+.project-box:hover {
+    background-color: #161b22;
+    border-color: #2f81f7;
+    text-decoration: none;
+    color: #e6edf3;
+}
+
+/* ===== Skill / Tech Tags ===== */
 .tag {
     background-color: #21262d;
     color: #2f81f7;
@@ -71,6 +142,7 @@ footer a:hover {
     text-decoration: underline;
 }
 
+/* Small muted "Hosted on GitHub Pages" line */
 .hosted {
     color: #9e9e9e;
     font-size: small;
