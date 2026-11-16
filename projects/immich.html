@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matthew Pollock | Immich Photo Server on Proxmox</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+
+    <header>
+        <h1>Matthew Pollock | Cybersecurity Portfolio | BYU</h1>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="../pages/about.html">About</a>
+            <a href="../pages/projects.html">Projects</a>
+            <a href="../pages/timeline.html">Timeline</a>
+            <a href="../pages/wordle.html">Wordle</a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Immich Photo Server on Proxmox</h2>
+            <p>Immich is a free, self hosted replacement for Google Photos. I installed it in an Ubuntu Server VM on my Proxmox host so my photo library lives on hardware I own instead of a paid cloud subscription. I then uploaded my cleaned up library of about 32,000 photos and videos to it.</p>
+
+            <h3>Terminology</h3>
+            <ul>
+                <li><b>Self hosted:</b> running a service on your own hardware instead of using a company's servers.</li>
+                <li><b>Docker:</b> a tool that runs apps in isolated packages called containers.</li>
+                <li><b>Docker Compose:</b> a file that defines several containers that run together. Immich uses four: the server, machine learning, a database, and a cache.</li>
+                <li><b>Static IP:</b> an address set by hand that never changes, used here because nothing hands out addresses on the VM network.</li>
+                <li><b>NAT:</b> lets VMs on a private network share the host's internet connection.</li>
+                <li><b>Port forward:</b> a rule that sends traffic arriving on one port of the host to a VM.</li>
+                <li><b>API key:</b> a password that lets a program, instead of a person, log in to a service.</li>
+            </ul>
+
+            <p>The following steps detail the Immich setup:</p>
+
+            <ol>
+                <li>
+                    <b>Download Ubuntu Server to Proxmox</b><br>
+                    In Proxmox, go to <b>local</b>, then <b>ISO Images</b>, then <b>Download from URL</b>, and download the Ubuntu Server 26.04 LTS ISO.
+                </li>
+                <li>
+                    <b>Create the VM</b><br>
+                    4 CPU cores (type <code>host</code>), 8 GB of RAM, and a 300 GB disk on <code>local-lvm</code>, attached to the private bridge <code>vmbr0</code>.
+                </li>
+                <li>
+                    <b>Install Ubuntu with a static IP</b><br>
+                    During install, set the network manually to address <code>10.10.10.50</code>, gateway <code>10.10.10.1</code> (the Proxmox host), and DNS <code>1.1.1.1</code>. Enable the OpenSSH server.
+                </li>
+                <li>
+                    <b>Install Docker</b><br>
+                    <code>curl -fsSL https://get.docker.com | sudo sh</code>
+                </li>
+                <li>
+                    <b>Download the Immich files</b><br>
+                    Download <code>docker-compose.yml</code> and <code>example.env</code> from the official <a href="https://docs.immich.app/install/docker-compose" target="_blank" rel="noopener noreferrer">Immich install guide</a>, and rename <code>example.env</code> to <code>.env</code>.
+                </li>
+                <li>
+                    <b>Set a random database password</b><br>
+                    <code>sed -i "s/^DB_PASSWORD=.*/DB_PASSWORD=$(openssl rand -hex 16)/" .env</code>
+                </li>
+                <li>
+                    <b>Start Immich</b><br>
+                    <code>docker compose up -d</code>, then <code>docker compose ps</code> to confirm all four containers are healthy.
+                </li>
+                <li>
+                    <b>Forward port 2283 from the host to the VM</b><br>
+                    On the Proxmox host:<br>
+                    <code>iptables -t nat -A PREROUTING -p tcp --dport 2283 -j DNAT --to-destination 10.10.10.50:2283</code><br>
+                    I saved the same rule as a <code>post-up</code> line in <code>/etc/network/interfaces</code> so it survives a reboot.
+                </li>
+                <li>
+                    <b>Create the admin account</b><br>
+                    Open <code>http://&lt;host IP&gt;:2283</code>, click <b>Getting Started</b>, and save the password in KeePassXC.
+                </li>
+                <li>
+                    <b>Upload the library with the Immich CLI</b><br>
+                    Create an API key in Immich, install the uploader with <code>npm i -g @immich/cli</code>, log in, and upload one folder at a time. The CLI skips anything already uploaded, so it can resume if interrupted.
+                </li>
+            </ol>
+
+            <h3>Troubleshooting</h3>
+            <ul>
+                <li><b>Intermittent loss of connection:</b> the host and the VM kept losing internet. Running <code>arp -a</code> showed a different device answering on the host's address. The router had handed the same IP to another device. I moved the host to an unused address, which fixed it.</li>
+                <li><b>DNS lookups failing:</b> Tailscale had taken over the host's DNS settings. Running <code>tailscale set --accept-dns=false</code> restored normal lookups.</li>
+                <li><b>Uploader found no files:</b> on Windows, the Immich CLI did not accept full paths with a drive letter. Running it from inside the library folder with one folder name at a time worked.</li>
+            </ul>
+
+            <p><b>Security note:</b> Immich is never exposed to the public internet. It is reachable only from my home network and over my private Tailscale network, with no port forwarding on the router. The database uses a randomly generated password, every login is stored in KeePassXC, and I revoked the upload API key once the import finished.</p>
+        </section>
+    </main>
+
+    <footer>
+        © Matthew Pollock
+        · <a href="https://github.com/wattpollock" target="_blank" rel="noopener noreferrer">GitHub</a>
+        · <a href="https://www.linkedin.com/in/matthew-pollock-b1513530a/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <br>
+        <span class="hosted">Hosted on GitHub Pages</span>
+    </footer>
+
+</body>
+
+</html>

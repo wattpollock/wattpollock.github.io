@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matthew Pollock | KeePassXC Password Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+
+    <header>
+        <h1>Matthew Pollock | Cybersecurity Portfolio | BYU</h1>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="../pages/about.html">About</a>
+            <a href="../pages/projects.html">Projects</a>
+            <a href="../pages/timeline.html">Timeline</a>
+            <a href="../pages/wordle.html">Wordle</a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>KeePassXC Password Manager</h2>
+            <p>KeePassXC is a free, open source password manager that stores every password in one encrypted file on my own computer. I set it up so every account can have its own long, random password, and I only have to remember one master password. Because the database is offline, my passwords are not stored on a company's cloud server.</p>
+
+            <h3>Terminology</h3>
+            <ul>
+                <li><b>Password manager:</b> an app that stores and generates passwords so you do not reuse them across accounts.</li>
+                <li><b>Database (.kdbx):</b> the single encrypted file that holds all of my entries.</li>
+                <li><b>Master password:</b> the one password that unlocks the database. It cannot be recovered if forgotten.</li>
+                <li><b>Entry:</b> one saved login, with a title, username, password, and URL.</li>
+                <li><b>Group:</b> a folder inside the database used to organize entries, like <code>Homelab</code>.</li>
+                <li><b>Password reuse:</b> using the same password on several accounts. One breach then exposes all of them.</li>
+            </ul>
+
+            <p>The following steps detail the KeePassXC setup:</p>
+
+            <ol>
+                <li>
+                    <b>Install KeePassXC</b><br>
+                    Download the Windows installer from the official <a href="https://keepassxc.org/download/" target="_blank" rel="noopener noreferrer">KeePassXC download page</a> and run it with the default install location.
+                </li>
+                <li>
+                    <b>Create a new database</b><br>
+                    Open KeePassXC, click <b>Create Database</b>, and give it a name.
+                </li>
+                <li>
+                    <b>Keep the default encryption settings</b><br>
+                    The defaults use strong, current encryption, so I left them unchanged.
+                </li>
+                <li>
+                    <b>Set a strong master password</b><br>
+                    I chose a long master password that I do not use anywhere else, since it protects every other password in the file.
+                </li>
+                <li>
+                    <b>Organize entries into groups</b><br>
+                    I created groups such as <code>Homelab</code> to keep server logins separate from personal accounts.
+                </li>
+                <li>
+                    <b>Add entries with generated passwords</b><br>
+                    Press <code>Ctrl+N</code> to add an entry, then click the dice icon to generate a random password. I used this for my Proxmox, Ubuntu VM, and Immich logins.
+                </li>
+                <li>
+                    <b>Copy passwords safely</b><br>
+                    Select an entry and press <code>Ctrl+C</code>. KeePassXC clears the clipboard after a few seconds so the password does not stay there.
+                </li>
+            </ol>
+
+            <p><b>Security note:</b> Password reuse is one of the most common ways accounts get compromised. A password manager removes the need to reuse passwords, and keeping the database offline means I control where my credentials are stored. The tradeoff is that the master password has no recovery option, so it must be strong and remembered.</p>
+        </section>
+    </main>
+
+    <footer>
+        © Matthew Pollock
+        · <a href="https://github.com/wattpollock" target="_blank" rel="noopener noreferrer">GitHub</a>
+        · <a href="https://www.linkedin.com/in/matthew-pollock-b1513530a/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <br>
+        <span class="hosted">Hosted on GitHub Pages</span>
+    </footer>
+
+</body>
+
+</html>
